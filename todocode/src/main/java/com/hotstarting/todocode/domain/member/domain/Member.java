@@ -5,7 +5,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,14 +14,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class Member implements Serializable {
+public class Member {
 // 직렬화 가능한 객체로 간주함으로써 세션 클러스터링, 캐시 저장, 분산 시스템 등과 같은 상황에 대비
 
     // PK
     @Id
     @GeneratedValue
     @Column(name = "member_id")
-    private Long id;
+    private Integer id;
 
     // 이름
     @Column(nullable = false, length = 30)
@@ -41,20 +40,16 @@ public class Member implements Serializable {
     private String gender;
 
     // 소셜서버
-    @Column(name = "social_server", nullable = false, length = 15)
+    @Column(name = "oauth_id", nullable = false, length = 15)
     private String socialServer;
 
-    // spring security용 컬럼
-    @Column(nullable = false, length = 15)
-    private String role;
-
     // 가입일시
-    @Column(name = "created_date", updatable = false)
+    @Column(name = "member_created_date", updatable = false)
     @CreatedDate
     private LocalDateTime createdDate;
 
     // 수정일시
-    @Column(name = "updated_date")
+    @Column(name = "member_updated_date")
     @LastModifiedDate
     private LocalDateTime updatedDate;
 
