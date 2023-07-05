@@ -43,6 +43,10 @@ public class Member {
     @Column(name = "oauth_id", nullable = false, length = 15)
     private String socialServer;
 
+    // spring security용 컬럼
+    @Column(nullable = false, length = 15)
+    private String role;
+
     // 가입일시
     @Column(name = "member_created_date", updatable = false)
     @CreatedDate
