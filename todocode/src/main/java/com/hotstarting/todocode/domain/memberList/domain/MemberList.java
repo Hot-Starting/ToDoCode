@@ -17,7 +17,7 @@ public class MemberList {
 
     //PK
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment
     @Column(name = "member_list_id")
     private Integer id;
 

@@ -18,7 +18,7 @@ public class Category {
 
     // PK
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment
     @Column(name = "category_id")
     private Integer id;
 

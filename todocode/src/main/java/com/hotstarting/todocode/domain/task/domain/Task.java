@@ -20,7 +20,7 @@ public class Task {
 
     // PK
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment
     @Column(name = "task_id")
     private Integer id;
 
