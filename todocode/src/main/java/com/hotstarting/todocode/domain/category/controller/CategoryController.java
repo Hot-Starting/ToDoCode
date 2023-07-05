@@ -1,11 +1,11 @@
-package com.hotstarting.todocode.domain.group.controller;
+package com.hotstarting.todocode.domain.category.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/group")
+@RequestMapping("/api/category")
 @RequiredArgsConstructor
-public class GroupController {
+public class CategoryController {
 }

@@ -1,4 +1,4 @@
-package com.hotstarting.todocode.domain.group.service;
+package com.hotstarting.todocode.domain.category.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,5 +9,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class GroupService {
+public class CategoryService {
 }

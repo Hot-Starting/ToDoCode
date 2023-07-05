@@ -1,6 +1,6 @@
 package com.hotstarting.todocode.domain.task.domain;
 
-import com.hotstarting.todocode.domain.group.domain.Group;
+import com.hotstarting.todocode.domain.category.domain.Category;
 import com.hotstarting.todocode.domain.member.domain.Member;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -26,8 +26,8 @@ public class Task {
 
     // FK
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     // FK
     @ManyToOne(fetch = FetchType.LAZY)

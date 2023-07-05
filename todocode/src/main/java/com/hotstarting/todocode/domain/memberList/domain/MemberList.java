@@ -1,6 +1,6 @@
 package com.hotstarting.todocode.domain.memberList.domain;
 
-import com.hotstarting.todocode.domain.group.domain.Group;
+import com.hotstarting.todocode.domain.category.domain.Category;
 import com.hotstarting.todocode.domain.member.domain.Member;
 import lombok.*;
 
@@ -28,6 +28,6 @@ public class MemberList {
 
     // FK
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @JoinColumn(name = "category_id")
+    private Category category;
 }
