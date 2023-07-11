@@ -1,0 +1,37 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 346761536587-44etc82brurn7phn9c87lb9glg0m7u0k.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: http://localhost:8080/oauth2/callback/google
+            scope:
+              - profile
+              - email
+
+        provider:
+          google:
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v2/userinfo
+
+
+
+
+# cors 설정
+cors:
+  allowed-origins: 'http://localhost:8080'
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: '*'
+  max-age: 3600
+
+# jwt secret key 설정
+jwt.secret: 'b236f082d4483e58fac1bf736ea990598bb0e1fea3a936884def27b2023542ef7dcc604d397c21f0502baf5ec74ea28335f8c262566c5426a419f5570aa4ae0c'
+
+# 토큰 관련 secret Key 및 RedirectUri 설정
+app:
+  auth:
+    token-secret: 71b91211a15623ba714a86b585a1de6a49ec72b5d11d9e5f7a61f5b045e964ef79b0c3dc44dc6307096031e0c11c921c24c9f700f49810f98b4e05adc7c6a134
+    token-expiry: 86400000 # 24시간
+    refresh-token-expiry: 1209600000 # 7일
