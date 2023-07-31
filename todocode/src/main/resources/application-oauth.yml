@@ -30,5 +30,5 @@ jwt.secret: ${JWT_SECRET}
 app:
   auth:
     token-secret: ${TOKEN_SECRET}
-    token-expiry: ${TOKEN_EXPIRY} # 24시간
-    refresh-token-expiry: ${REFRESH_TOKEN_EXPIRY} # 7일
+    token-expiry: ${TOKEN_EXPIRY}
+    refresh-token-expiry: ${REFRESH_TOKEN_EXPIRY}
