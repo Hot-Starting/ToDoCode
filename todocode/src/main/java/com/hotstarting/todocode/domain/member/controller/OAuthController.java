@@ -31,59 +31,59 @@ import java.util.Date;
 public class OAuthController {
     private final AppProperties appProperties;
     private final AuthTokenProvider tokenProvider;
-    private final AuthenticationManager authenticationManager;
+//    private final AuthenticationManager authenticationManager;
     private final MemberRepository memberRepository;
 
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
 
-    @PostMapping("/login")
-    public ApiResponse login(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @RequestBody AuthReqModel authReqModel
-    ) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authReqModel.getId(),
-                        authReqModel.getPassword()
-                )
-        );
-
-        String userId = authReqModel.getId();
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        Date now = new Date();
-        AuthToken accessToken = tokenProvider.createAuthToken(
-                userId,
-                ((PrincipalDetails) authentication.getPrincipal()).getRoleType().getCode(),
-                new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
-        );
-
-        long refreshTokenExpiry = appProperties.getAuth().getRefreshTokenExpiry();
-        AuthToken refreshToken = tokenProvider.createAuthToken(
-                appProperties.getAuth().getTokenSecret(),
-                new Date(now.getTime() + refreshTokenExpiry)
-        );
-
-        // userId refresh token 으로 DB 확인
-        Member member = memberRepository.findBySocialId(userId);
-        String userRefreshToken = member.getRefreshToken();
-        if (userRefreshToken == null || userRefreshToken.isEmpty()) {
-            // 없는 경우 새로 등록
-            member.saveRefreshToken(refreshToken.getToken());
-            memberRepository.saveAndFlush(member);
-        } else {
-            // DB에 refresh 토큰 업데이트
-            member.saveRefreshToken(refreshToken.getToken());
-        }
-
-        int cookieMaxAge = (int) refreshTokenExpiry / 60;
-        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
-        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
-
-        return ApiResponse.success("token", accessToken.getToken());
-    }
+//    @PostMapping("/login")
+//    public ApiResponse login(
+//            HttpServletRequest request,
+//            HttpServletResponse response,
+//            @RequestBody AuthReqModel authReqModel
+//    ) {
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        authReqModel.getId(),
+//                        authReqModel.getPassword()
+//                )
+//        );
+//
+//        String userId = authReqModel.getId();
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        Date now = new Date();
+//        AuthToken accessToken = tokenProvider.createAuthToken(
+//                userId,
+//                ((PrincipalDetails) authentication.getPrincipal()).getRoleType().getCode(),
+//                new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
+//        );
+//
+//        long refreshTokenExpiry = appProperties.getAuth().getRefreshTokenExpiry();
+//        AuthToken refreshToken = tokenProvider.createAuthToken(
+//                appProperties.getAuth().getTokenSecret(),
+//                new Date(now.getTime() + refreshTokenExpiry)
+//        );
+//
+//        // userId refresh token 으로 DB 확인
+//        Member member = memberRepository.findBySocialId(userId);
+//        String userRefreshToken = member.getRefreshToken();
+//        if (userRefreshToken == null || userRefreshToken.isEmpty()) {
+//            // 없는 경우 새로 등록
+//            member.saveRefreshToken(refreshToken.getToken());
+//            memberRepository.saveAndFlush(member);
+//        } else {
+//            // DB에 refresh 토큰 업데이트
+//            member.saveRefreshToken(refreshToken.getToken());
+//        }
+//
+//        int cookieMaxAge = (int) refreshTokenExpiry / 60;
+//        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
+//        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
+//
+//        return ApiResponse.success("token", accessToken.getToken());
+//    }
 
     @GetMapping("/refresh")
     public ApiResponse refreshToken (HttpServletRequest request, HttpServletResponse response) {

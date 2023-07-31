@@ -11,19 +11,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Slf4j
-@Service
-@RequiredArgsConstructor
-public class CustomUserDetailsService implements UserDetailsService {
-
-    private final MemberRepository memberRepository;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.debug("loadUserByUsername 호출, 넘어온 username : {}", username);
-
-        Member member = memberRepository.findByName(username).orElseThrow(() -> new UserNotFoundException());
-
-        return PrincipalDetails.create(member);
-    }
-}
+//@Slf4j
+//@Service
+//@RequiredArgsConstructor
+//public class CustomUserDetailsService implements UserDetailsService {
+//
+//    private final MemberRepository memberRepository;
+//
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        log.debug("loadUserByUsername 호출, 넘어온 username : {}", username);
+//
+//        Member member = memberRepository.findByName(username).orElseThrow(() -> new UserNotFoundException());
+//
+////        return PrincipalDetails.create(member);
+//    }
+//}

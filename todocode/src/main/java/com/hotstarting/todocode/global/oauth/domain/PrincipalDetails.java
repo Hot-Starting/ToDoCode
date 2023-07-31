@@ -17,9 +17,9 @@ import java.util.*;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class PrincipalDetails implements OAuth2User, UserDetails, OidcUser {
+public class PrincipalDetails implements OAuth2User, OidcUser {
     private final String socialId;
-    private final String password;
+//    private final String password;
     private final ProviderType providerType;
     private final RoleType roleType;
     private final Collection<GrantedAuthority> authorities;
@@ -41,32 +41,26 @@ public class PrincipalDetails implements OAuth2User, UserDetails, OidcUser {
         return socialId;
     }
 
-    @Override
     public String getUsername() {
         return socialId;
     }
 
-    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    @Override
     public boolean isEnabled() {
         return true;
     }
 
-    @Override
     public Map<String, Object> getClaims() {
         return null;
     }
@@ -81,18 +75,24 @@ public class PrincipalDetails implements OAuth2User, UserDetails, OidcUser {
         return null;
     }
 
-    public static PrincipalDetails create(Member member) {
-        return new PrincipalDetails(
+//    public static PrincipalDetails create(Member member) {
+//        return new PrincipalDetails(
+//                member.getSocialId(),
+//                member.getPassword(),
+//                member.getProviderType(),
+//                RoleType.MEMBER,
+//                Collections.singletonList(new SimpleGrantedAuthority(RoleType.MEMBER.getCode()))
+//        );
+//    }
+
+    public static PrincipalDetails create(Member member, Map<String, Object> attributes) {
+        PrincipalDetails userPrincipal = new PrincipalDetails(
                 member.getSocialId(),
-                member.getPassword(),
+//                member.getPassword(),
                 member.getProviderType(),
                 RoleType.MEMBER,
                 Collections.singletonList(new SimpleGrantedAuthority(RoleType.MEMBER.getCode()))
         );
-    }
-
-    public static PrincipalDetails create(Member member, Map<String, Object> attributes) {
-        PrincipalDetails userPrincipal = create(member);
         userPrincipal.setAttributes(attributes);
 
         return userPrincipal;

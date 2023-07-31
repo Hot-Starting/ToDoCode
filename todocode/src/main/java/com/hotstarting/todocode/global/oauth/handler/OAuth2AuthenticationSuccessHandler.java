@@ -97,11 +97,11 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         log.debug("accessToken : {}", accessToken.getToken());
         log.debug("refreshToken : {}", refreshToken.getToken());
 
-        // DB 저장
-        Member member = memberRepository.findBySocialId(userInfo.getId());
-        log.debug("userInfo 리프레시 토큰 저장한 후 : {}", member.getRefreshToken());
-        member.saveRefreshToken(refreshToken.getToken());
-        memberRepository.saveAndFlush(member);
+        // Refresh토큰 DB 저장
+//        Member member = memberRepository.findBySocialId(userInfo.getId());
+//        log.debug("userInfo 리프레시 토큰 저장한 후 : {}", member.getRefreshToken());
+//        member.saveRefreshToken(refreshToken.getToken());
+//        memberRepository.saveAndFlush(member);
 
         int cookieMaxAge = (int) refreshTokenExpiry / 60;
 

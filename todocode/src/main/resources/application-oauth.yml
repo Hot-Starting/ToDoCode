@@ -3,20 +3,17 @@ spring:
     oauth2:
       client:
         registration:
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT-SECRET}
+            scope: name,email,avatar_url
           google:
-            client-id:
-            client-secret:
-            redirect-uri: http://localhost:8080/oauth2/callback/google
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT-SECRET}
+            redirect-uri: ${REDIRECT_URI}
             scope:
               - profile
               - email
-
-        provider:
-          google:
-            token-uri: https://oauth2.googleapis.com/token
-            user-info-uri: https://www.googleapis.com/oauth2/v2/userinfo
-
-
 
 
 # cors 설정
@@ -27,11 +24,11 @@ cors:
   max-age: 3600
 
 # jwt secret key 설정
-jwt.secret:
+jwt.secret: ${JWT_SECRET}
 
 # 토큰 관련 secret Key 및 RedirectUri 설정
 app:
   auth:
-    token-secret:
-    token-expiry: 86400000 # 24시간
-    refresh-token-expiry: 1209600000 # 7일
+    token-secret: ${TOKEN_SECRET}
+    token-expiry: ${TOKEN_EXPIRY} # 24시간
+    refresh-token-expiry: ${REFRESH_TOKEN_EXPIRY} # 7일

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -22,8 +23,13 @@ public class AppProperties {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Auth {
+        @Value("${app.auth.token-expiry}")
         private String tokenSecret;
+
+        @Value("${app.auth.token-expiry}")
         private long tokenExpiry;
+
+        @Value("${app.auth.refresh-token-expiry}")
         private long refreshTokenExpiry;
     }
 

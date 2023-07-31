@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -32,6 +33,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         log.debug("소셜서버가 사용자 정보 넘겨줌");
 
         OAuth2User user = super.loadUser(userRequest);
+        Map<String, Object> attributes = user.getAttributes();
+
+        log.info(String.valueOf(attributes));
+
+
+
+        log.info(String.valueOf(attributes.get("id")));
+        log.info(String.valueOf(attributes.get("name")));
+        log.info(String.valueOf(attributes.get("avatar_url")));
 
         try {
             return this.process(userRequest, user);
@@ -47,11 +57,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private OAuth2User process(OAuth2UserRequest userRequest, OAuth2User user) {
 
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
-
+        log.info("1" );
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
+        log.info("2" );
+        log.info(userInfo.getId());
         Member savedMember = memberRepository.findBySocialId(userInfo.getId());
-
-        String nickname = "guest" + (memberRepository.count() + 1);
+        log.info("3");
+//        String nickname = "guest" + (memberRepository.count() + 1);
 
         if (savedMember != null) {
             log.debug("구글로 로그인을 한 적이 있는 member입니다.");
@@ -65,7 +77,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             }
         } else {
             log.debug("소셜 로그인 최초입니다.");
-            savedMember = createUser(userInfo, providerType);
+            Map<String, Object> attributes = (Map<String, Object>) userInfo;
+
+//            log.info(String.valueOf(attributes));
+            log.info(userInfo.getName());
+//            savedMember = createUser(userInfo, providerType);
         }
 
         return PrincipalDetails.create(savedMember, user.getAttributes());
