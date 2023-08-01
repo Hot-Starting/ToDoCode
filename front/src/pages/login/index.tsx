@@ -1,3 +1,8 @@
+import axios from "axios";
+import Image from "next/image";
+import googleLoginImg from "@/../public/btn_google_signin_dark_normal_web@2x.png";
+import githubLoginImg from "@/../public/githubImage.png";
+
 export default function Login() {
   const redirectUrl = "http://localhost:3000";
 
@@ -11,8 +16,38 @@ export default function Login() {
 
   return (
     <>
-      <a href={googleUrl}>구글</a>
-      <a href={githubUrl}>깃허브</a>
+      <div>
+        <h1>a 태그</h1>
+        <a href={googleUrl}>구글</a>
+        <br />
+        <a href={githubUrl}>깃허브</a>
+      </div>
+      <hr />
+      <div>
+        <h1>GET 요청</h1>
+        <Image
+          src={googleLoginImg}
+          alt=""
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            axios({
+              method: "get",
+              url: "http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth/redirect",
+            }).then((response) => console.log(response));
+          }}
+        />
+        <Image
+          src={githubLoginImg}
+          alt=""
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            axios({
+              method: "get",
+              url: "http://localhost:8080/oauth2/authorization/github?redirect_uri=http://localhost:3000/oauth/redirect",
+            }).then((response) => console.log(response));
+          }}
+        />
+      </div>
     </>
   );
 }
