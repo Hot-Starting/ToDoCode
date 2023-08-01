@@ -1,7 +1,4 @@
-import { cookies } from "next/dist/client/components/headers";
 import React, { useEffect } from "react";
-import { Create } from "./cookies";
-
 const Callback = () => {
   useEffect(() => {
     const fetchAccessToken = async () => {
@@ -31,7 +28,6 @@ const Callback = () => {
       .then((response) => response.json())
       .then((data: data) => {
         console.log("DATA", data);
-        Create(data.access_token);
       })
       .catch((err) => console.log(err));
   });
