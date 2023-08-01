@@ -1,7 +1,7 @@
 import axios from "axios";
 import Image from "next/image";
-import googleLoginImg from "@/../public/btn_google_signin_dark_normal_web@2x.png";
-import githubLoginImg from "@/../public/githubImage.png";
+import googleLoginImg from "public/btn_google_signin_dark_normal_web@2x.png";
+import githubLoginImg from "/public/githubImage.png";
 
 export default function Login() {
   const redirectUrl = "http://localhost:3000";
@@ -32,7 +32,7 @@ export default function Login() {
           onClick={() => {
             axios({
               method: "get",
-              url: "http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth/redirect",
+              url: googleUrl,
             }).then((response) => console.log(response));
           }}
         />
@@ -43,7 +43,7 @@ export default function Login() {
           onClick={() => {
             axios({
               method: "get",
-              url: "http://localhost:8080/oauth2/authorization/github?redirect_uri=http://localhost:3000/oauth/redirect",
+              url: githubUrl,
             }).then((response) => console.log(response));
           }}
         />
