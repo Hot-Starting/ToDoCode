@@ -1,7 +1,5 @@
 import axios from "axios";
 import Image from "next/image";
-import googleLoginImg from "public/btn_google_signin_dark_normal_web@2x.png";
-import githubLoginImg from "/public/githubImage.png";
 
 export default function Login() {
   const redirectUrl = "http://localhost:3000";
@@ -26,8 +24,10 @@ export default function Login() {
       <div>
         <h1>GET 요청</h1>
         <Image
-          src={googleLoginImg}
+          src="/googleImg.png"
           alt=""
+          width="320"
+          height="80"
           style={{ cursor: "pointer" }}
           onClick={() => {
             axios({
@@ -36,9 +36,12 @@ export default function Login() {
             }).then((response) => console.log(response));
           }}
         />
+        <br />
         <Image
-          src={githubLoginImg}
+          src="/githubImage.png"
           alt=""
+          width="320"
+          height="80"
           style={{ cursor: "pointer" }}
           onClick={() => {
             axios({
