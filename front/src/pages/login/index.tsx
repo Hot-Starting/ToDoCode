@@ -6,11 +6,11 @@ export default function Login() {
 
   // const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_ID}&redirect_uri=${redirectUrl}&response_type=code&scope=email profile`;
   const googleUrl =
-    "http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth/redirect";
+    "http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/login/callback";
 
   // const githubUrl = `/github/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_ID}&redirect_url=${redirectUrl}`;
   const githubUrl =
-    "http://localhost:8080/oauth2/authorization/github?redirect_uri=http://localhost:3000/oauth/redirect";
+    "http://localhost:8080/oauth2/authorization/github?redirect_uri=http://localhost:3000/login/callback";
 
   return (
     <>
