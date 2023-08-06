@@ -34,3 +34,6 @@ app:
     token-secret: ${TOKEN_SECRET}
     token-expiry: ${TOKEN_EXPIRY}
     refresh-token-expiry: ${REFRESH_TOKEN_EXPIRY}
+  oauth2:
+    authorized-redirect-uris:
+      - ${OAUTH2_REDIRECT_URI}

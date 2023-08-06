@@ -82,13 +82,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         log.info("1");
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
         log.info("2");
-        log.info(userInfo.getId());
+        log.info(String.valueOf(providerType));
         Member savedMember = memberRepository.findBySocialId(userInfo.getId());
         log.info("3");
 //        String nickname = "guest" + (memberRepository.count() + 1);
 
         if (savedMember != null) {
-            log.debug("구글로 로그인을 한 적이 있는 member입니다.");
+            log.debug("로그인을 한 적이 있는 member입니다.");
 
             if (providerType != savedMember.getProviderType()) {
                 log.debug("당신이 가입한 providerType : {}", savedMember.getProviderType().toString());
@@ -97,22 +97,33 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                                 " account. Please use your " + savedMember.getProviderType() + " account to login."
                 );
             }
-        } else {
+        }
             log.debug("소셜 로그인 최초입니다.");
 
             String userToken = userRequest.getAccessToken().getTokenValue();
+            // Google 계정 회원가입
+            if(String.valueOf(providerType).equals("GOOGLE")){
+                savedMember = googleCreateUser(userInfo, providerType);
+                log.info(savedMember.getEmail());
+
+            }
+            // Github 계정 회원가입
+            else if(String.valueOf(providerType).equals("GITHUB")){
+                // Github 이메일 정보 가져오기
+                Mono<String> emailMono = getEmailFromGithub(userToken);
+                String userEmail = emailMono.block();
+                log.info(userEmail);
+                savedMember = githubCreateUser(userInfo, providerType, userEmail);
+                log.info(savedMember.getEmail());
+            }
 
 
-            Mono<String> emailMono = getEmailFromGithub(userToken);
-            String userEmail = emailMono.block();
-            log.info(userEmail);
-            savedMember = createUser(userInfo, providerType,userEmail);
-        }
+
 
         return PrincipalDetails.create(savedMember, user.getAttributes());
     }
 
-    private Member createUser(OAuth2UserInfo userInfo, ProviderType providerType, String userEmail) {
+    private Member githubCreateUser(OAuth2UserInfo userInfo, ProviderType providerType, String userEmail) {
         LocalDateTime createdDate = LocalDateTime.now();
         Member member = new Member(
                 userInfo.getName(),
@@ -125,6 +136,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         return memberRepository.saveAndFlush(member);
     }
+
+    private Member googleCreateUser(OAuth2UserInfo userInfo, ProviderType providerType) {
+        LocalDateTime createdDate = LocalDateTime.now();
+        Member member = new Member(
+                userInfo.getName(),
+                userInfo.getId(),
+                userInfo.getEmail(),
+                userInfo.getImageUrl(),
+                providerType,
+                createdDate
+        );
+
+        return memberRepository.saveAndFlush(member);
+    }
+
+
 
     private Member updateUser(Member member, OAuth2UserInfo userInfo) {
         if (userInfo.getName() != null && !member.getName().equals(userInfo.getName())) {
