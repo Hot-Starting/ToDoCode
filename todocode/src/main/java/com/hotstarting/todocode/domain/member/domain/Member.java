@@ -32,29 +32,26 @@ public class Member {
     @Column(nullable = false, length = 30)
     private String name;
 
-    // 소셜 서버에서 주는 아이디인가????
+    // 소셜 서버에서 주는 맞아
     @Column(name = "social_id", length = 64, nullable = false, unique = true)
     private String socialId;
 
 //    // 닉네임
-//    @Column(unique = true, nullable = false, length = 15)
-//    private String nickname;
+    @Column(unique = true, nullable = false, length = 15)
+    private String nickname;
 
     // 이메일
     @Column(unique = true, nullable = false, length = 100)
     private String email;
 
-    // 성별
-//    @Column(nullable = false)
-//    private String gender;
 
     // 프로필 사진 URL
     @Column(name = "profile_image_url", nullable = false, length = 512)
     private String profileImageUrl;
 
-    // 비밀번호
-    @Column(name = "PASSWORD", nullable = false, length = 128)
-    private String password;
+//    // 비밀번호
+//    @Column(name = "PASSWORD", nullable = false, length = 128)
+//    private String password;
 
     // 소셜 서버
     @Column(name = "provider_type", nullable = false, length = 20)
@@ -66,9 +63,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-    // refresh토큰
-    @Column(name = "refresh_token", unique = true, length = 200)
-    private String refreshToken;
 
     // 가입일시
     @Column(name = "member_created_date", updatable = false)
@@ -84,7 +78,8 @@ public class Member {
     public Member(String name, String socialId, String email, String profileImageUrl, ProviderType providerType, LocalDateTime createdDate) {
         this.name = name;
         this.socialId = socialId;
-        this.password = "NO_PASS";
+        this.nickname = name;
+//        this.password = "NO_PASS";
         this.email = email;
         this.profileImageUrl = profileImageUrl;
         this.providerType = providerType;
@@ -93,8 +88,8 @@ public class Member {
     }
 
 
-    public void saveRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
+//    public void saveRefreshToken(String refreshToken) {
+//        this.refreshToken = refreshToken;
+//    }
 
 }

@@ -1,12 +1,10 @@
 package com.hotstarting.todocode.global.oauth.handler;
 
-import com.hotstarting.todocode.domain.member.domain.Member;
 import com.hotstarting.todocode.domain.member.repository.MemberRepository;
 import com.hotstarting.todocode.domain.member.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import com.hotstarting.todocode.global.jwt.AuthToken;
 import com.hotstarting.todocode.global.jwt.AuthTokenProvider;
 import com.hotstarting.todocode.global.oauth.domain.AppProperties;
-import com.hotstarting.todocode.global.oauth.domain.PrincipalDetails;
 import com.hotstarting.todocode.global.oauth.domain.ProviderType;
 import com.hotstarting.todocode.global.oauth.domain.RoleType;
 import com.hotstarting.todocode.global.oauth.info.OAuth2UserInfo;
@@ -97,11 +95,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         log.debug("accessToken : {}", accessToken.getToken());
         log.debug("refreshToken : {}", refreshToken.getToken());
 
-        // Refresh토큰 DB 저장
-//        Member member = memberRepository.findBySocialId(userInfo.getId());
-//        log.debug("userInfo 리프레시 토큰 저장한 후 : {}", member.getRefreshToken());
-//        member.saveRefreshToken(refreshToken.getToken());
-//        memberRepository.saveAndFlush(member);
+        // Refresh토큰 REDIS에 저장
+
 
         int cookieMaxAge = (int) refreshTokenExpiry / 60;
 

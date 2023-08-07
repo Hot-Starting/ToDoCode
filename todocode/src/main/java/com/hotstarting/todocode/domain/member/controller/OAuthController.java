@@ -2,22 +2,18 @@ package com.hotstarting.todocode.domain.member.controller;
 
 import com.hotstarting.todocode.domain.member.domain.Member;
 import com.hotstarting.todocode.domain.member.dto.ApiResponse;
-import com.hotstarting.todocode.domain.member.dto.AuthReqModel;
 import com.hotstarting.todocode.domain.member.repository.MemberRepository;
 import com.hotstarting.todocode.global.jwt.AuthToken;
 import com.hotstarting.todocode.global.jwt.AuthTokenProvider;
 import com.hotstarting.todocode.global.oauth.domain.AppProperties;
-import com.hotstarting.todocode.global.oauth.domain.PrincipalDetails;
 import com.hotstarting.todocode.global.oauth.domain.RoleType;
 import com.hotstarting.todocode.global.util.CookieUtil;
 import com.hotstarting.todocode.global.util.HeaderUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -65,11 +61,11 @@ public class OAuthController {
             return ApiResponse.invalidRefreshToken();
         }
 
-        // userId refresh token 으로 DB 확인
-        String userRefreshToken = memberRepository.findBySocialId(userId).getRefreshToken();
-        if (userRefreshToken == null || userRefreshToken.isEmpty()) {
-            return ApiResponse.invalidRefreshToken();
-        }
+        // 후에 Redis에서 사용자 아이디로 리프레시토큰 조회해서 가져오게 끔 수정
+//        String userRefreshToken = memberRepository.findBySocialId(userId).getRefreshToken();
+//        if (userRefreshToken == null || userRefreshToken.isEmpty()) {
+//            return ApiResponse.invalidRefreshToken();
+//        }
 
         Date now = new Date();
         AuthToken newAccessToken = tokenProvider.createAuthToken(
@@ -92,7 +88,7 @@ public class OAuthController {
 
             // DB에 refresh 토큰 업데이트
             Member member = memberRepository.findBySocialId(userId);
-            member.saveRefreshToken(authRefreshToken.getToken());
+//            member.saveRefreshToken(authRefreshToken.getToken());
             memberRepository.saveAndFlush(member);
 
             int cookieMaxAge = (int) refreshTokenExpiry / 60;

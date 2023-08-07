@@ -6,13 +6,14 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -41,9 +42,9 @@ public class PrincipalDetails implements OAuth2User, OidcUser {
         return socialId;
     }
 
-    public String getUsername() {
-        return socialId;
-    }
+//    public String getUsername() {
+//        return socialId;
+//    }
 
     public boolean isAccountNonExpired() {
         return true;
@@ -88,7 +89,6 @@ public class PrincipalDetails implements OAuth2User, OidcUser {
     public static PrincipalDetails create(Member member, Map<String, Object> attributes) {
         PrincipalDetails userPrincipal = new PrincipalDetails(
                 member.getSocialId(),
-//                member.getPassword(),
                 member.getProviderType(),
                 RoleType.MEMBER,
                 Collections.singletonList(new SimpleGrantedAuthority(RoleType.MEMBER.getCode()))

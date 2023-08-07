@@ -11,9 +11,6 @@ import com.hotstarting.todocode.global.oauth.info.OAuth2UserInfo;
 import com.hotstarting.todocode.global.oauth.info.OAuth2UserInfoFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -21,18 +18,10 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.PostConstruct;
-import java.net.URI;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -80,6 +69,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
         log.info("1");
+        log.info(String.valueOf(user.getAttributes()));
+        log.info(String.valueOf(user));
+
+        log.info(user.getAttributes().toString());
+        log.info(user.toString());
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
         log.info("2");
         log.info(String.valueOf(providerType));
@@ -98,26 +92,24 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 );
             }
         }
-            log.debug("소셜 로그인 최초입니다.");
+        log.debug("소셜 로그인 최초입니다.");
 
-            String userToken = userRequest.getAccessToken().getTokenValue();
-            // Google 계정 회원가입
-            if(String.valueOf(providerType).equals("GOOGLE")){
-                savedMember = googleCreateUser(userInfo, providerType);
-                log.info(savedMember.getEmail());
+        String userToken = userRequest.getAccessToken().getTokenValue();
+        // Google 계정 회원가입
+        if (String.valueOf(providerType).equals("GOOGLE")) {
+            savedMember = googleCreateUser(userInfo, providerType);
+            log.info(savedMember.getEmail());
 
-            }
-            // Github 계정 회원가입
-            else if(String.valueOf(providerType).equals("GITHUB")){
-                // Github 이메일 정보 가져오기
-                Mono<String> emailMono = getEmailFromGithub(userToken);
-                String userEmail = emailMono.block();
-                log.info(userEmail);
-                savedMember = githubCreateUser(userInfo, providerType, userEmail);
-                log.info(savedMember.getEmail());
-            }
-
-
+        }
+        // Github 계정 회원가입
+        else if (String.valueOf(providerType).equals("GITHUB")) {
+            // Github 이메일 정보 가져오기
+            Mono<String> emailMono = getEmailFromGithub(userToken);
+            String userEmail = emailMono.block();
+            log.info(userEmail);
+            savedMember = githubCreateUser(userInfo, providerType, userEmail);
+            log.info(savedMember.getEmail());
+        }
 
 
         return PrincipalDetails.create(savedMember, user.getAttributes());
@@ -152,16 +144,4 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
 
-
-    private Member updateUser(Member member, OAuth2UserInfo userInfo) {
-        if (userInfo.getName() != null && !member.getName().equals(userInfo.getName())) {
-            member.setName(userInfo.getName());
-        }
-
-        if (userInfo.getImageUrl() != null && !member.getProfileImageUrl().equals(userInfo.getImageUrl())) {
-            member.setProfileImageUrl(userInfo.getImageUrl());
-        }
-
-        return member;
-    }
 }
