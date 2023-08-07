@@ -43,19 +43,6 @@ public class SecurityConfig{
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
     private final MemberRepository memberRepository;
 
-    /*
-     * UserDetailsService 설정
-     * */
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//
-//        authProvider.setUserDetailsService(userDetailsService);
-//        authProvider.setPasswordEncoder(passwordEncoder());
-//
-//        return authProvider;
-//    }
-
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -102,17 +89,8 @@ public class SecurityConfig{
 
 
         return http.build();
-        }
+    }
 
-
-
-    /*
-     * security 설정 시, 사용할 인코더 설정
-     * */
-//    @Bean
-//    public BCryptPasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 
     /*
      * 토큰 필터 설정
