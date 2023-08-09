@@ -66,7 +66,7 @@ public class OAuthController {
         AuthToken authRefreshToken = tokenProvider.convertAuthToken(refreshToken);
 
         // 로직이 이해 안됨 > true인데 왜 INVALID Exception?..
-        if (authRefreshToken.validate()) {
+        if (!authRefreshToken.validate()) {
             throw new CustomException(HttpStatus.UNAUTHORIZED, ErrorMsg.INVALID_REFRESH_TOKEN);
         }
 
