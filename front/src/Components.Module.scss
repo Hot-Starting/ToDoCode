@@ -1,0 +1,56 @@
+
+.threeColor {
+  width: 3.4rem;
+  height: 0.75rem;
+
+  display: flex;
+  justify-content: space-around;
+
+  div {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+  }
+
+  .redBall {
+    background-color: red;
+  }
+  
+  .yellowBall {
+    background-color: yellow;
+  }
+
+  .greenBall {
+    background-color: green;
+  }
+}
+
+.calender {
+  width: 22.5rem;
+  text-align: center;
+}
+
+.largeMonth {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.calenderMain {
+  width: 22.5rem;
+  height: 31rem;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 0.3rem;
+}
+
+.calenderDate {
+  font-size: 1rem; 
+  font-weight: 500; 
+
+  .dayDate {
+    display: inline-flex;
+    margin: 0.5rem;
+    color: black;
+  }
+}

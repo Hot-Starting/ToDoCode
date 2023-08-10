@@ -2,10 +2,10 @@
 
 const withPlugins = require("next-compose-plugins");
 const withPWA = require("next-pwa");
+const path = require("path");
 
 const nextConfig = {
-  
-  reactStrictMode: true,
+  reactStrictMode: true,  
 };
 
 module.exports = withPlugins(
@@ -17,6 +17,13 @@ module.exports = withPlugins(
           dest: "public",
         },
       },
+    ],
+    [
+      {
+        sassOptions: {
+          includePaths: [path.join(__dirname, 'styles')],
+        }
+      }
     ]
   ],
   nextConfig
