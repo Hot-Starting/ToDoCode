@@ -22,7 +22,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<ResponseDTO> getUser(
+    public ResponseDTO getUser(
             @AuthenticationPrincipal PrincipalDetails userPrincipal
     ) {
 
@@ -30,6 +30,6 @@ public class MemberController {
         // 추후 MemberDTO 따로 만들기
         ResponseDTO responseDTO = ResponseDTO.builder().status("SUCCESS").message(Msg.SUCCESS_MEMBER_INFO).data(member).build();
 
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+        return responseDTO;
     }
 }

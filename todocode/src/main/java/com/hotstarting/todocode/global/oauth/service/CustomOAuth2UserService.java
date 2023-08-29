@@ -72,8 +72,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         log.info(String.valueOf(user.getAttributes()));
         log.info(String.valueOf(user));
 
-        log.info(user.getAttributes().toString());
-        log.info(user.toString());
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
         log.info("2");
         log.info(String.valueOf(providerType));

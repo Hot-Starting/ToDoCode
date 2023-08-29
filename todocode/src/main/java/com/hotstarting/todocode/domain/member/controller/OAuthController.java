@@ -3,7 +3,7 @@ package com.hotstarting.todocode.domain.member.controller;
 import com.hotstarting.todocode.domain.member.domain.Member;
 import com.hotstarting.todocode.domain.member.repository.MemberRepository;
 import com.hotstarting.todocode.global.exception.CustomException;
-import com.hotstarting.todocode.global.exception.ErrorMsg;
+import com.hotstarting.todocode.global.exception.ErrorCode;
 import com.hotstarting.todocode.global.jwt.AuthToken;
 import com.hotstarting.todocode.global.jwt.AuthTokenProvider;
 import com.hotstarting.todocode.global.oauth.domain.AppProperties;
@@ -47,13 +47,13 @@ public class OAuthController {
         String accessToken = HeaderUtil.getAccessToken(request);
         AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
         if (!authToken.validate()) {
-            throw new CustomException(HttpStatus.UNAUTHORIZED, ErrorMsg.INVALID_ACCESS_TOKEN);
+            throw new CustomException(ErrorCode.INVALID_ACCESS_TOKEN);
         }
 
         // expired access token 인지 확인
         Claims claims = authToken.getExpiredTokenClaims();
         if (claims == null) {
-            throw new CustomException(HttpStatus.FORBIDDEN, ErrorMsg.NOT_EXPIRED_TOKEN_YET);
+            throw new CustomException(ErrorCode.NOT_EXPIRED_TOKEN_YET);
         }
 
         String userId = claims.getSubject();
@@ -65,15 +65,14 @@ public class OAuthController {
                 .orElse((null));
         AuthToken authRefreshToken = tokenProvider.convertAuthToken(refreshToken);
 
-        // 로직이 이해 안됨 > true인데 왜 INVALID Exception?..
         if (!authRefreshToken.validate()) {
-            throw new CustomException(HttpStatus.UNAUTHORIZED, ErrorMsg.INVALID_REFRESH_TOKEN);
+            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
         // 후에 Redis에서 사용자 아이디로 리프레시토큰 조회해서 가져오게 끔 수정
 //        String userRefreshToken = memberRepository.findBySocialId(userId).getRefreshToken();
 //        if (userRefreshToken == null || userRefreshToken.isEmpty()) {
-//            throw new CustomException(HttpStatus.UNAUTHORIZED, ErrorMsg.INVALID_REFRESH_TOKEN);
+//            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
 //        }
 
         Date now = new Date();

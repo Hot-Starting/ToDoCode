@@ -12,11 +12,11 @@ public class GlobalExceptionHandler {
     // CustomException 처리
     @ExceptionHandler(CustomException.class)
     protected ResponseEntity<ErrorResponse> handleCustomException(final CustomException e) {
-        log.error("handleCustomException: {}", e.getErrorMsg());
+        log.error("handleCustomException: {}",  e.getErrorCode());
         e.printStackTrace();
         return ResponseEntity
-                .status(e.getHttpStatus())
-                .body(new ErrorResponse(e.getErrorMsg()));
+                .status(e.getErrorCode().getStatus().value())
+                .body(new ErrorResponse(e.getErrorCode()));
     }
 
 }
