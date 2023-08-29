@@ -1,4 +1,4 @@
-package com.hotstarting.todocode.global.jwt.reponse;
+package com.hotstarting.todocode.global.response;
 
 import lombok.*;
 
@@ -8,9 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class ResponseDTO {
-
     private String status;
     private String message;
-    private Data data;
-
+    private Object data;
 }
