@@ -1,6 +1,7 @@
 package com.hotstarting.todocode.domain.member.controller;
 
 import com.hotstarting.todocode.domain.member.domain.Member;
+import com.hotstarting.todocode.domain.member.dto.AuthResponse;
 import com.hotstarting.todocode.domain.member.repository.MemberRepository;
 import com.hotstarting.todocode.global.exception.CustomException;
 import com.hotstarting.todocode.global.exception.ErrorCode;
@@ -8,10 +9,8 @@ import com.hotstarting.todocode.global.jwt.AuthToken;
 import com.hotstarting.todocode.global.jwt.AuthTokenProvider;
 import com.hotstarting.todocode.global.oauth.domain.AppProperties;
 import com.hotstarting.todocode.global.oauth.domain.RoleType;
-import com.hotstarting.todocode.global.response.ResponseDTO;
 import com.hotstarting.todocode.global.util.CookieUtil;
 import com.hotstarting.todocode.global.util.HeaderUtil;
-import com.hotstarting.todocode.global.util.Msg;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,7 +41,7 @@ public class OAuthController {
 
 
     @GetMapping("/refresh")
-    public ResponseEntity<ResponseDTO> refreshToken (HttpServletRequest request, HttpServletResponse response) {
+    public AuthResponse refreshToken (HttpServletRequest request, HttpServletResponse response) {
         // access token 확인
         String accessToken = HeaderUtil.getAccessToken(request);
         AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
@@ -104,11 +103,7 @@ public class OAuthController {
             CookieUtil.addCookie(response, REFRESH_TOKEN, authRefreshToken.getToken(), cookieMaxAge);
         }
 
-        Map<String, String> map = new HashMap<>();
-        map.put("token", newAccessToken.getToken());
-        ResponseDTO responseDTO = ResponseDTO.builder().status("SUCCESS").message(Msg.SUCCESS_TOKEN_REISSUE).data(map).build();
-
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+        return AuthResponse.of("token", newAccessToken.getToken());
     }
 
 }
