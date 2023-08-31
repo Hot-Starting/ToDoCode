@@ -2,6 +2,7 @@ package com.hotstarting.todocode.domain.member.domain;
 
 import com.hotstarting.todocode.global.oauth.domain.ProviderType;
 import com.hotstarting.todocode.global.oauth.domain.RoleType;
+import com.hotstarting.todocode.global.util.BooleanToYNConverter;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -49,7 +50,17 @@ public class Member {
 
     // 활성화 여부
     @Column(name = "is_active")
+    @Convert(converter = BooleanToYNConverter.class)
     private Boolean isActive;
+
+    // 이메일
+    @Column(unique = true, nullable = false, length = 100)
+    private String email;
+
+    // 소셜 서버
+    @Column(name = "provider_type", nullable = false, length = 20)
+    @Enumerated(EnumType.STRING)
+    private ProviderType providerType;
 
     // 가입일시
     @Column(name = "member_created_date", updatable = false)
@@ -62,12 +73,14 @@ public class Member {
     private LocalDateTime updatedDate;
 
     // 사용자 회원가입
-    public Member(String name, String profileImageUrl, String socialId, LocalDateTime createdDate) {
+    public Member(String name, String profileImageUrl, String socialId, String email, ProviderType providerType, LocalDateTime createdDate) {
         this.name = name;
         this.profileImageUrl = profileImageUrl;
         this.socialId = socialId;
         this.role = RoleType.MEMBER;
         this.isActive = true;
+        this.email = email;
+        this.providerType = providerType;
         this.createdDate = createdDate;
     }
 }

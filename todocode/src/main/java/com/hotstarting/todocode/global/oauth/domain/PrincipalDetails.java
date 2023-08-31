@@ -20,7 +20,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PrincipalDetails implements OAuth2User, OidcUser {
     private final String socialId;
-//    private final String password;
     private final ProviderType providerType;
     private final RoleType roleType;
     private final Collection<GrantedAuthority> authorities;

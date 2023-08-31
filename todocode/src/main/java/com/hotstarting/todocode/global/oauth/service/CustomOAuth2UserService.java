@@ -117,9 +117,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         LocalDateTime createdDate = LocalDateTime.now();
         Member member = new Member(
                 userInfo.getName(),
+                userInfo.getImageUrl(),
                 userInfo.getId(),
                 userEmail,
-                userInfo.getImageUrl(),
                 providerType,
                 createdDate
         );
@@ -131,9 +131,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         LocalDateTime createdDate = LocalDateTime.now();
         Member member = new Member(
                 userInfo.getName(),
+                userInfo.getImageUrl(),
                 userInfo.getId(),
                 userInfo.getEmail(),
-                userInfo.getImageUrl(),
                 providerType,
                 createdDate
         );

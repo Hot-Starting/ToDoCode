@@ -2,6 +2,7 @@ package com.hotstarting.todocode.domain.task.domain;
 
 import com.hotstarting.todocode.domain.category.domain.Category;
 import com.hotstarting.todocode.domain.member.domain.Member;
+import com.hotstarting.todocode.global.util.BooleanToYNConverter;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -51,10 +52,12 @@ public class Task {
 
     // 완료여부
     @Column(name = "is_completed")
+    @Convert(converter = BooleanToYNConverter.class)
     private Boolean isCompleted;
 
     // 삭제여부
     @Column(name = "is_deleted")
+    @Convert(converter = BooleanToYNConverter.class)
     private Boolean isDeleted;
 
     // 생성일시
