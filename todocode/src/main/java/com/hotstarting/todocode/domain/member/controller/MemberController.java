@@ -16,13 +16,10 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping
-    public Member getUser(
-            @AuthenticationPrincipal PrincipalDetails userPrincipal
-    ) {
+    public Member getUser(@AuthenticationPrincipal PrincipalDetails userPrincipal) {
 
         // 추후 MemberDTO 따로 만들기
         Member member = memberService.getMember(userPrincipal.getName());
-
         return member;
     }
 }

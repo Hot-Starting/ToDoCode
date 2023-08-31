@@ -23,8 +23,12 @@ public class Category {
     private Integer id;
 
     // 그룹이름
-    @Column(nullable = false, length = 30)
-    private String category_name;
+    @Column(nullable = false, length = 30, name = "category_name")
+    private String categoryName;
+
+    // 이모티콘 URL
+    @Column(name = "emoticon_url")
+    private String emoticon;
 
     // 생성일시
     @Column(name = "category_created_date", updatable = false)

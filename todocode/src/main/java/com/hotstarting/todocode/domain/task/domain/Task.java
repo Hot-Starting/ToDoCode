@@ -49,6 +49,14 @@ public class Task {
     // 우선순위
     private Long priority;
 
+    // 완료여부
+    @Column(name = "is_completed")
+    private Boolean isCompleted;
+
+    // 삭제여부
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
+
     // 생성일시
     @Column(name = "task_created_date", updatable = false)
     @CreatedDate
