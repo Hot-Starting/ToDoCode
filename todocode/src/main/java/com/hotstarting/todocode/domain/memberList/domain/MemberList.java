@@ -30,4 +30,11 @@ public class MemberList {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    public static MemberList of(Member member, Category category) {
+        return MemberList.builder()
+                .member(member)
+                .category(category)
+                .build();
+    }
 }

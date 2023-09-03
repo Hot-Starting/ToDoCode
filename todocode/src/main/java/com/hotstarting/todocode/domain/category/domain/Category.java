@@ -1,11 +1,13 @@
 package com.hotstarting.todocode.domain.category.domain;
 
+import com.hotstarting.todocode.domain.member.domain.Member;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 @Table(name = "category")
@@ -27,8 +29,8 @@ public class Category {
     private String categoryName;
 
     // 이모티콘 URL
-    @Column(name = "emoticon_url")
-    private String emoticon;
+    @Column(nullable = false, name = "emoticon_url")
+    private String emoticonUrl;
 
     // 생성일시
     @Column(name = "category_created_date", updatable = false)
@@ -39,4 +41,11 @@ public class Category {
     @Column(name = "category_updated_date")
     @LastModifiedDate
     private LocalDateTime updatedDate;
+
+    public static Category of(String categoryName, String emoticonUrl) {
+        return Category.builder()
+                .categoryName(categoryName)
+                .emoticonUrl(emoticonUrl)
+                .build();
+    }
 }

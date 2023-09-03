@@ -10,16 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/member")
+@RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
+
     private final MemberService memberService;
 
     @GetMapping
-    public Member getUser(@AuthenticationPrincipal PrincipalDetails userPrincipal) {
+    public Member getUser(@AuthenticationPrincipal PrincipalDetails memberPrincipal) {
 
         // 추후 MemberDTO 따로 만들기
-        Member member = memberService.getMember(userPrincipal.getName());
+        Member member = memberService.getMember(memberPrincipal.getName());
         return member;
     }
 }
